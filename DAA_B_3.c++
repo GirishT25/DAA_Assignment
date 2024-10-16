@@ -13,43 +13,44 @@ Input: task[] = [30, 20, 22, 4, 21], D = 6
 Output: 22
 */
 #include <iostream>
-
 using namespace std;
 
-int calculateWork(int task[], int low, int N)
-{
-    int temp = 0;
-    for (int i = 0; i < N; i++)
-    {
-        temp += (task[i] + low - 1) / low;
+int maxProfit(int arr[], int N) {
+    
+    int minPrice = arr[0];
+    
+        int maxProfit = 0;
+    
+    
+    for (int i = 1; i < N; ++i) {
+                int profit = arr[i] - minPrice;
+        
+        
+        if (profit > maxProfit) {
+            maxProfit = profit;
+        }
+        
+        
+        if (arr[i] < minPrice) {
+            minPrice = arr[i];
+        }
     }
-    return temp;
+    
+    return maxProfit;
 }
 
-int main()
-{
+int main() {
 
-    int N, task[10], days, low = 1;
-    cout << "Enter size : ";
-    cin >> N;
-    for (int i = 0; i < N; i++)
-    {
-        cout << "Enter " << i << "th work :";
-        cin >> task[i];
-    }
-    cout << "enter max number of days: ";
-    cin >> days;
+    int arr1[] = {2, 3, 5};
+    int N1 = 3;
+    cout << "Maximum profit for arr1: " << maxProfit(arr1, N1) << endl;
 
-    while (true)
-    {
-        int work = calculateWork(task, low, N);
-        if (work <= days)
-        {
-            cout << "Minimum work to be done per day: " << low << endl;
-            break;
-        }
-        low++;
-    }
-
+    int arr2[] = {8, 5, 1};
+    int N2 = 3;
+    cout << "Maximum profit for arr2: " << maxProfit(arr2, N2) << endl;
+    
     return 0;
 }
+
+
+
