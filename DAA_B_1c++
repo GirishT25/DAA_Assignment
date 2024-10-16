@@ -1,0 +1,66 @@
+(* # Implement a problem of activity selection problem 
+# with K persons. 
+# Statement: Given two arrays S[] and E[] of size N denoting starting 
+# and closing time of the shops and an integer value K denoting the 
+# number of people, the task is to find out the maximum number of 
+# shops they can visit in total if they visit each shop optimally based 
+# on the following conditions: 
+#  A shop can be visited by only one person 
+#  A person cannot visit another shop if its timing collide with it 
+# Input: S[] = {1, 8, 3, 2, 6}, E[] = {5, 10, 6, 5, 9}, K = 2 
+# Output: 4 
+# Input: S[] = {1, 2, 3}, E[] = {3, 4, 5}, K = 2 
+# Output: 3 *)
+#include <iostream>
+using namespace std;
+
+void sortShops(int S[], int E[], int N) {
+    for (int i = 0; i < N - 1; ++i) {
+        for (int j = i + 1; j < N; ++j) {
+            if (E[i] > E[j]) {
+                int tempS = S[i];
+                S[i] = S[j];
+                S[j] = tempS;
+
+                int tempE = E[i];
+                E[i] = E[j];
+                E[j] = tempE;
+            }
+        }
+    }
+}
+
+int maxShops(int S[], int E[], int N, int K) {
+    sortShops(S, E, N);
+    
+    int personEndTime[K];
+    for (int i = 0; i < K; ++i) {
+        personEndTime[i] = 0;
+    }
+
+    int shopCount = 0;
+    
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < K; ++j) {
+            if (personEndTime[j] <= S[i]) {
+                personEndTime[j] = E[i];
+                shopCount++;
+                break;
+            }
+        }
+    }
+    
+    return shopCount;
+}
+
+int main() {
+    int S[] = {1, 8, 3, 2, 6};
+    int E[] = {5, 10, 6, 5, 9};
+    int K = 2;
+    int N = 5;
+    
+    cout << "Maximum number of shops that can be visited: " << maxShops(S, E, N, K) << endl;
+    
+    return 0;
+}
+
